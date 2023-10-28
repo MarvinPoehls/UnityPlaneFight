@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float RotationControl;
 
     float MovY = 1;
+    float lift = 9.81f;
 
     void Start()
     {
@@ -25,8 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
    
     private void FixedUpdate()
-    {    
-        HandleMovement();
+    {
+        MoveForward();
 
         SetRotation();
 
@@ -43,30 +45,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
-    {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            rb.gravityScale = 0;
-        }
-        
-        if(Input.GetKey(KeyCode.Space)){
-            MoveForward();
-        }
-
-        if(Input.GetKey(KeyCode.Space)){
-            rb.gravityScale = 0;
-        }
-    }
-
     private void MoveForward()
     {
+        lift = 9.81f;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            lift = 0;
+        }
+
         Vector2 velocity = transform.right * Acceleration;
+        velocity += Vector2.up * lift;
+
         rb.AddForce(velocity);
     }
 
     private void Brake()
     {
-        rb.velocity *= 0.9f;
+        if (rb.velocity.x > 0)
+        {
+            rb.AddForce(transform.right * -10);
+        }
     }
 
     private void SetRotation()
