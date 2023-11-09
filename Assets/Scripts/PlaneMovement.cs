@@ -15,6 +15,12 @@ public class PlayerMovement : MonoBehaviour
     float MovY = 1;
     float lift = 9.81f;
 
+    public GameObject shootObject;
+    public Transform bullletSpawn;
+
+    private float timeStamp;
+    public float coolDownInSeconds;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,15 +46,34 @@ public class PlayerMovement : MonoBehaviour
 
         SpeedLimit();
 
-        if(Input.GetKey(KeyCode.LeftArrow)){
+        if(IsBrakeInput())
+        {
             Brake();
+        }
+
+        if(IsShootInput()) { 
+            Shoot(); 
+        }
+
+        if(IsPlaneUpsideDown())
+        {
+            FilpPlane();
+        }
+    }
+
+    private void Shoot()
+    {
+        if (timeStamp <= Time.time)
+        {
+            Instantiate(shootObject, bullletSpawn.position, transform.rotation);
+            timeStamp = Time.time + coolDownInSeconds;
         }
     }
 
     private void MoveForward()
     {
         lift = 9.81f;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (IsBrakeInput())
         {
             lift = 0;
         }
@@ -90,5 +115,25 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * MaxSpeed;
         }
+    }
+
+    private bool IsBrakeInput()
+    {
+        return Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
+    }
+
+    private bool IsShootInput()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
+
+    private void FilpPlane()
+    {
+        //TODO transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
+    }
+
+    private bool IsPlaneUpsideDown()
+    {
+        return transform.up.y < 0f;
     }
 }
