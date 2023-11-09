@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 4323827167949914245}
   - component: {fileID: 4951305400174202487}
   - component: {fileID: 712595735216573722}
-  - component: {fileID: 4781793619089625404}
+  - component: {fileID: 3368116439496062093}
   m_Layer: 6
   m_Name: Plane (Player)
   m_TagString: Untagged
@@ -385,7 +385,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4781793619089625404
+--- !u!114 &3368116439496062093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4806287720868620993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4df5c316f9e784446b1a8d286d622953, type: 3}
+  m_Script: {fileID: 11500000, guid: 00fcde7fe43fe9347994289b6746a76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 12
@@ -402,7 +402,7 @@ MonoBehaviour:
   RotationControl: 5
   shootObject: {fileID: 6090546198299906303, guid: ee9ed603874e9744eb8f59e97f6a12b9, type: 3}
   bullletSpawn: {fileID: 5587470074333096123}
-  coolDownInSeconds: 2
+  coolDownInSeconds: 0.1
 --- !u!1 &6802860885414369277
 GameObject:
   m_ObjectHideFlags: 0
