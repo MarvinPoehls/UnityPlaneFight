@@ -1,25 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneMovement : MonoBehaviour
 {
-    public float MaxSpeed;
-    public float Acceleration;
-
     protected Rigidbody2D rb;
 
-    public float RotationControl;
-
+    public float MaxSpeed = 8;
+    public float Acceleration = 8;
+    public float RotationControl = 5;
+    public float Health = 100;
     protected float MovY = 1;
-    protected float lift = 9.81f;
+    protected float lift;
 
     public GameObject shootObject;
     public Transform bullletSpawn;
 
     protected float timeStamp;
     public float coolDownInSeconds;
+
+    protected bool isDead = false;
 
     protected void Start()
     {
@@ -29,6 +27,12 @@ public class PlaneMovement : MonoBehaviour
     protected void Update()
     {
         MovY = Input.GetAxis("Vertical");
+        lift = 9.81f * rb.mass;
+
+        if (Health <= 0)
+        {
+            isDead = true;
+        }
     }
 
     protected void Shoot()
@@ -81,5 +85,10 @@ public class PlaneMovement : MonoBehaviour
     protected bool IsPlaneUpsideDown()
     {
         return transform.up.y < 0f;
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

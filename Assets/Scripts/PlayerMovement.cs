@@ -2,42 +2,56 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : PlaneMovement
 {
-    private void FixedUpdate()
+    [SerializeField] HealthBar healthBar;
+
+    protected void FixedUpdate()
     {
-        MoveForward();
-
-        SetRotation();
-
-        float thrustforce = Vector2.Dot(rb.velocity, rb.GetRelativeVector(Vector2.down)) * 2.0f;
-
-        Vector2 relForce = Vector2.up * thrustforce;
-
-        rb.AddForce(rb.GetRelativeVector(relForce));
-
-        SpeedLimit();
-
-        if (IsBrakeInput())
+        if (!isDead)
         {
-            Brake();
-        }
+            MoveForward();
 
-        if (IsShootInput())
-        {
-            Shoot();
-        }
+            SetRotation();
 
-        if (IsPlaneUpsideDown())
-        {
-            FilpPlane();
+            float thrustforce = Vector2.Dot(rb.velocity, rb.GetRelativeVector(Vector2.down)) * 2.0f;
+
+            Vector2 relForce = Vector2.up * thrustforce;
+
+            rb.AddForce(rb.GetRelativeVector(relForce));
+
+            SpeedLimit();
+
+            if (IsBrakeInput())
+            {
+                Brake();
+            }
+
+            if (IsShootInput())
+            {
+                Shoot();
+            }
+
+            if (IsPlaneUpsideDown())
+            {
+                FilpPlane();
+            }
         }
     }
 
-    private void MoveForward()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        lift = 9.81f;
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            Health -= collision.gameObject.GetComponent<Bullet>().GetDamage();
+            healthBar.UpdateHealth(Health);
+        }
+    }
+
+    protected void MoveForward()
+    {
         if (IsBrakeInput())
         {
             lift = 0;
@@ -49,12 +63,12 @@ public class PlayerMovement : PlaneMovement
         rb.AddForce(velocity);
     }
 
-    private bool IsBrakeInput()
+    protected bool IsBrakeInput()
     {
         return Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
     }
 
-    private bool IsShootInput()
+    protected bool IsShootInput()
     {
         return Input.GetKey(KeyCode.Space);
     }
