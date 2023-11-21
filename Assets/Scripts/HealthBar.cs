@@ -19,7 +19,8 @@ public class HealthBar : MonoBehaviour
             healthPercent = 0;
 
         healthImage.fillAmount = healthPercent;
-        healthText.text = Mathf.Round(healthPercent * 100).ToString();
+        healthImage.color = healthGradient.Evaluate(healthPercent);
         healthTextBackground.color = healthGradient.Evaluate(healthPercent);
+        healthText.text = Mathf.Round(healthPercent * 100).ToString();
     }
 }

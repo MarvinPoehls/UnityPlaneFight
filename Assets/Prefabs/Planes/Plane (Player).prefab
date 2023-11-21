@@ -213,6 +213,7 @@ MonoBehaviour:
   shootObject: {fileID: 7559255092180347689, guid: ff7b10862afcb7747bcabde9a1823b76, type: 3}
   bullletSpawn: {fileID: 956516891221730325}
   coolDownInSeconds: 0.1
+  healthBar: {fileID: 0}
 --- !u!1 &6187854725430933038
 GameObject:
   m_ObjectHideFlags: 0
