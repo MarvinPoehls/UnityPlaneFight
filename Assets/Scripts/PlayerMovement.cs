@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : PlaneMovement
 {
-    [SerializeField] HealthBar healthBar;
+    [SerializeField] HealthBar hud;
 
     protected void FixedUpdate()
     {
@@ -34,6 +34,15 @@ public class PlayerMovement : PlaneMovement
                 Shoot();
             }
 
+            if (IsBoostInput()) {
+                Boost();
+                hud.UpdateStamina(Stamina);
+            }
+
+            if (IsBoostEndInput()) {
+                EndBoost();
+            }
+
             if (IsPlaneUpsideDown())
             {
                 FilpPlane();
@@ -46,7 +55,7 @@ public class PlayerMovement : PlaneMovement
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
             Health -= collision.gameObject.GetComponent<Bullet>().GetDamage();
-            healthBar.UpdateHealth(Health);
+            hud.UpdateHealth(Health);
         }
     }
 
@@ -71,5 +80,15 @@ public class PlayerMovement : PlaneMovement
     protected bool IsShootInput()
     {
         return Input.GetKey(KeyCode.Space);
+    }
+
+    protected bool IsBoostInput()
+    {
+        return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+    }
+
+    protected bool IsBoostEndInput()
+    {
+        return Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D);
     }
 }

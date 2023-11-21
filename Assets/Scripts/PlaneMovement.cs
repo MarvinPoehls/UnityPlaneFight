@@ -8,6 +8,7 @@ public class PlaneMovement : MonoBehaviour
     public float Acceleration = 8;
     public float RotationControl = 5;
     public float Health = 100;
+    public float Stamina = 100;
     protected float MovY = 1;
     protected float lift;
 
@@ -18,6 +19,7 @@ public class PlaneMovement : MonoBehaviour
     public float coolDownInSeconds;
 
     protected bool isDead = false;
+    protected bool isBoosting = false;
 
     protected void Start()
     {
@@ -32,6 +34,16 @@ public class PlaneMovement : MonoBehaviour
         if (Health <= 0)
         {
             isDead = true;
+        }
+
+        if (isBoosting) {
+            Stamina--;
+        } else {
+            Stamina++;
+        }
+
+        if (Stamina <= 0) {
+            EndBoost();
         }
     }
 
@@ -49,6 +61,24 @@ public class PlaneMovement : MonoBehaviour
         if (rb.velocity.x > 0)
         {
             rb.AddForce(transform.right * -10);
+        }
+    }
+
+    protected void Boost()
+    {
+        if (!isBoosting) {
+            MaxSpeed *= 1.5f;
+            Acceleration *= 1.5f;
+            isBoosting = true;
+        }
+    }
+
+    protected void EndBoost()
+    {
+        if (isBoosting) {
+            MaxSpeed *= 2/3;
+            Acceleration *= 2/3;
+            isBoosting = false;
         }
     }
 

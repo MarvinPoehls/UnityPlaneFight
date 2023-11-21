@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
+    [SerializeField] private float maxStamina;
     [SerializeField] private Image healthImage;
+    [SerializeField] private Image staminaImage;
     [SerializeField] private Text healthText;
     [SerializeField] private Image healthTextBackground;
     [SerializeField] private Gradient healthGradient;
@@ -22,5 +24,15 @@ public class HealthBar : MonoBehaviour
         healthImage.color = healthGradient.Evaluate(healthPercent);
         healthTextBackground.color = healthGradient.Evaluate(healthPercent);
         healthText.text = Mathf.Round(healthPercent * 100).ToString();
+    }
+
+    public void UpdateStamina(float playerStamina)
+    {
+        float staminaPercent = playerStamina/maxStamina;
+
+        if (staminaPercent < 0)
+            staminaPercent = 0;
+
+        staminaImage.fillAmount = staminaPercent;
     }
 }

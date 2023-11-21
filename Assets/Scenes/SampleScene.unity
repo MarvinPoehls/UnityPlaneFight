@@ -62992,7 +62992,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  maxStamina: 100
   healthImage: {fileID: 1170288855}
+  staminaImage: {fileID: 948032516}
   healthText: {fileID: 263952846}
   healthTextBackground: {fileID: 103589815}
   healthGradient:
@@ -63383,6 +63385,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8308631503006904831, guid: 33b33a66a05996a42aa2de341ba5bbe5, type: 3}
+      propertyPath: hud
+      value: 
+      objectReference: {fileID: 817582776}
     - target: {fileID: 8308631503006904831, guid: 33b33a66a05996a42aa2de341ba5bbe5, type: 3}
       propertyPath: healthBar
       value: 
