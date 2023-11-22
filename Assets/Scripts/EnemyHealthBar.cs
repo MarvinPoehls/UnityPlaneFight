@@ -17,4 +17,14 @@ public class EnemyHealthBar : MonoBehaviour
 
         healthImage.fillAmount = healthPercent;
     }
+
+    public void FadeOut()
+    {
+
+    }
+
+    public void FadeIn()
+    {
+        
+    }
 }
