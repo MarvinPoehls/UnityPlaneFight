@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlaneMovement : MonoBehaviour
@@ -9,7 +10,8 @@ public class PlaneMovement : MonoBehaviour
     public float RotationControl = 5;
     public float Health = 100;
     public float Stamina = 100;
-    protected float MovY = 1;
+    protected float MaxStamina;
+    protected float movY = 1;
     protected float lift;
 
     public GameObject shootObject;
@@ -21,36 +23,51 @@ public class PlaneMovement : MonoBehaviour
     protected bool isDead = false;
     protected bool isBoosting = false;
 
+    protected float upsideDown;
+
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        MaxStamina = Stamina;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
-        MovY = Input.GetAxis("Vertical");
+        movY = Input.GetAxis("Vertical");
         lift = 9.81f * rb.mass;
 
-        if (Health <= 0)
-        {
+        if (Health <= 0) {
             isDead = true;
         }
 
         if (isBoosting) {
-            Stamina--;
+            Stamina -= 0.05f;
         } else {
-            Stamina++;
+            Stamina += 0.01f;
         }
 
         if (Stamina <= 0) {
             EndBoost();
         }
+
+        if (Stamina > MaxStamina) {
+            Stamina = MaxStamina;
+        }
+
+        if (isDead)
+        {
+            Destroy(gameObject, 10);
+        }
+
+        if (IsPlaneUpsideDown())
+        {
+            FilpPlane();
+        }
     }
 
     protected void Shoot()
     {
-        if (timeStamp <= Time.time)
-        {
+        if (timeStamp <= Time.time) {
             Instantiate(shootObject, bullletSpawn.position, transform.rotation);
             timeStamp = Time.time + coolDownInSeconds;
         }
@@ -58,8 +75,7 @@ public class PlaneMovement : MonoBehaviour
 
     protected void Brake()
     {
-        if (rb.velocity.x > 0)
-        {
+        if (rb.velocity.x > 0) {
             rb.AddForce(transform.right * -10);
         }
     }
@@ -67,8 +83,8 @@ public class PlaneMovement : MonoBehaviour
     protected void Boost()
     {
         if (!isBoosting) {
-            MaxSpeed *= 1.5f;
-            Acceleration *= 1.5f;
+            MaxSpeed *= 2f;
+            Acceleration *= 2f;
             isBoosting = true;
         }
     }
@@ -76,8 +92,8 @@ public class PlaneMovement : MonoBehaviour
     protected void EndBoost()
     {
         if (isBoosting) {
-            MaxSpeed *= 2/3;
-            Acceleration *= 2/3;
+            MaxSpeed *= 0.5f;
+            Acceleration *= 0.5f;
             isBoosting = false;
         }
     }
@@ -86,35 +102,39 @@ public class PlaneMovement : MonoBehaviour
     {
         float Dir = Vector2.Dot(rb.velocity, rb.GetRelativeVector(Vector2.right));
 
-        if(Acceleration > 0)
-        {
-            if(Dir > 0)
-            {
-                rb.rotation += MovY * RotationControl * (rb.velocity.magnitude / MaxSpeed); 
-            }
-            else
-            {
-                rb.rotation -= MovY * RotationControl * (rb.velocity.magnitude / MaxSpeed); 
+        if(Acceleration > 0) {
+            if(Dir > 0) {
+                rb.rotation += movY * RotationControl * (rb.velocity.magnitude / MaxSpeed); 
+            } else {
+                rb.rotation -= movY * RotationControl * (rb.velocity.magnitude / MaxSpeed); 
             }
         }
     }
 
     protected void SpeedLimit()
     {
-        if(rb.velocity.magnitude > MaxSpeed)
-        {
+        if(rb.velocity.magnitude > MaxSpeed) {
             rb.velocity = rb.velocity.normalized * MaxSpeed;
         }
     }
 
     protected void FilpPlane()
     {
-        //TODO transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
+        //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
+        if (transform.rotation.z > upsideDown)
+        {
+
+        }
+
+        if (transform.rotation.z > upsideDown * -1)
+        {
+
+        }
     }
 
     protected bool IsPlaneUpsideDown()
     {
-        return transform.up.y < 0f;
+        return transform.localScale.y < 0f;
     }
 
     public bool IsDead()

@@ -8,6 +8,23 @@ public class PlayerMovement : PlaneMovement
 {
     [SerializeField] HealthBar hud;
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (IsBoostInput())
+        {
+            Boost();
+        }
+
+        if (IsBoostEndInput())
+        {
+            EndBoost();
+        }
+
+        hud.UpdateStamina(Stamina);
+    }
+
     protected void FixedUpdate()
     {
         if (!isDead)
@@ -32,15 +49,6 @@ public class PlayerMovement : PlaneMovement
             if (IsShootInput())
             {
                 Shoot();
-            }
-
-            if (IsBoostInput()) {
-                Boost();
-                hud.UpdateStamina(Stamina);
-            }
-
-            if (IsBoostEndInput()) {
-                EndBoost();
             }
 
             if (IsPlaneUpsideDown())
@@ -84,7 +92,7 @@ public class PlayerMovement : PlaneMovement
 
     protected bool IsBoostInput()
     {
-        return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+        return Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
     }
 
     protected bool IsBoostEndInput()

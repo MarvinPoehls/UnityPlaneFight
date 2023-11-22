@@ -7,20 +7,23 @@ using static UnityEngine.GraphicsBuffer;
 public class EnemyMovement : PlaneMovement
 {
     [SerializeField] EnemyStatus enemyStatus;
-    [SerializeField] Transform playerTransform;
+    [SerializeField] protected float shootRange;
+    protected Transform playerTransform;
 
-    Transform entity;
-    Vector3 object_position;
-    [Range(2, 30)]
-    float angle_range = 30f;
-    [Range(0.5f, 5f)]
-    float min_allowed_distance = 3f;
+    [SerializeField] protected EnemyHealthBar healthBar;
 
     public enum EnemyStatus
     {
         Searching,
         Chasing,
         Fleeing
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     protected void FixedUpdate()
@@ -42,21 +45,30 @@ public class EnemyMovement : PlaneMovement
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerBullet"))
+        {
+            Health -= collision.gameObject.GetComponent<Bullet>().GetDamage();
+            healthBar.UpdateHealth(Health);
+        }
+    }
+
     protected void ChasePlayer()
     {
         RotateToPlayer();
 
-        if(true)
+        if (IsInShootingRange())
         {
+            if (rb.velocity.magnitude > 7 || transform.position.y > playerTransform.position.y + 20)
+            {
+                Brake();
+            }
+
             Shoot();
         }
 
         MoveForward();
-
-        if (IsPlayerBehind())
-        {
-            Brake();
-        } 
     }
 
     protected void SearchPlayer()
@@ -76,26 +88,17 @@ public class EnemyMovement : PlaneMovement
         transform.right = Vector3.RotateTowards(current, to, RotationControl * Time.deltaTime, 10);
     }
 
+    protected bool IsInShootingRange()
+    {
+        bool inRange = Vector2.Distance(transform.position, playerTransform.position) < shootRange;
+        return inRange;
+    }
+
     protected void MoveForward()
     {
         Vector2 velocity = transform.right * Acceleration;
         velocity += Vector2.up * lift;
 
         rb.AddForce(velocity);
-    }
-
-    protected bool IsPlayerBehind()
-    {
-        return false;
-        //Just assign these references however you need to. Either at run time, or in the inspector, or whatever suits your needs.
-        //Use an angle_range of 2 - 30 for best results. A value of 2 being directly in front of the entity. Increasing this value
-        //increases the entity's peripheral vision. Using 0 is not recommended. The value will most likely never equal 0.
-
-        float angle = Vector3.Angle(entity.forward, object_position - entity.position);
-
-        if (Mathf.Abs(angle) < angle_range)
-        {
-            //return distance < min_allowed_distance;
-        }
     }
 }
