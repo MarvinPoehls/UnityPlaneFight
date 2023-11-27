@@ -61,7 +61,7 @@ public class PlaneMovement : MonoBehaviour
 
         if (IsPlaneUpsideDown())
         {
-            FilpPlane();
+            FlipPlane();
         }
     }
 
@@ -118,23 +118,14 @@ public class PlaneMovement : MonoBehaviour
         }
     }
 
-    protected void FilpPlane()
-    {
-        //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
-        if (transform.rotation.z > upsideDown)
-        {
-
-        }
-
-        if (transform.rotation.z > upsideDown * -1)
-        {
-
-        }
-    }
-
     protected bool IsPlaneUpsideDown()
     {
-        return transform.localScale.y < 0f;
+        return Vector3.Dot(transform.up, Vector3.down) > 0;
+    }
+
+    protected void FlipPlane()
+    {
+        transform.Rotate(new Vector3(180, 0, 0));
     }
 
     public bool IsDead()

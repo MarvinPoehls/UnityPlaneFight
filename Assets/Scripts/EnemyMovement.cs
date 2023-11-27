@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyMovement : PlaneMovement
 {
@@ -17,6 +15,11 @@ public class EnemyMovement : PlaneMovement
         Searching,
         Chasing,
         Fleeing
+    }
+
+    private void Awake()
+    {
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     protected override void Update()
@@ -57,6 +60,8 @@ public class EnemyMovement : PlaneMovement
     protected void ChasePlayer()
     {
         RotateToPlayer();
+
+        MoveToPlayerHeight();
 
         if (IsInShootingRange())
         {
@@ -100,5 +105,25 @@ public class EnemyMovement : PlaneMovement
         velocity += Vector2.up * lift;
 
         rb.AddForce(velocity);
+    }
+
+    protected void MoveToPlayerHeight()
+    {
+        float planeY = transform.position.y;
+        float playerPlaneY = playerTransform.position.y;
+
+
+        if (planeY > playerPlaneY + 50 && planeY > 0)
+        {
+            Brake();
+        }
+        if (planeY > playerPlaneY + 10)
+        {
+            //rotate down
+        } 
+        if (planeY < playerPlaneY - 10)
+        {
+            //rotate up
+        }
     }
 }

@@ -50,11 +50,6 @@ public class PlayerMovement : PlaneMovement
             {
                 Shoot();
             }
-
-            if (IsPlaneUpsideDown())
-            {
-                FilpPlane();
-            }
         }
     }
 
