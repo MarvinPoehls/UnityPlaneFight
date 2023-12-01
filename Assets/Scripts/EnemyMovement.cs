@@ -20,6 +20,7 @@ public class EnemyMovement : PlaneMovement
     private void Awake()
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
+
     }
 
     protected override void Update()

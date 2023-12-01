@@ -56,7 +56,7 @@ public class PlaneMovement : MonoBehaviour
 
         if (isDead)
         {
-            Destroy(gameObject, 10);
+            Destroy(gameObject, 2);
         }
 
         if (IsPlaneUpsideDown())
