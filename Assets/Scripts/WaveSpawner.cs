@@ -19,6 +19,11 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
+        SetSpawnPosition();
+    }
+
+    private void SetSpawnPosition()
+    {
         Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
         int spawnSide = Random.Range(0, 2) * 2 - 1;
         spawnPosition = playerPosition - 25 * spawnSide * Vector3.right;
@@ -41,8 +46,7 @@ public class WaveSpawner : MonoBehaviour
     public void GenerateWave()
     {
         currentWave++;
-        waveValue = currentWave * 3;
-        lowestCost = GetLowestCost(enemies);
+        waveValue = currentWave * 1;
 
         GenerateEnemies();
     }
@@ -60,19 +64,39 @@ public class WaveSpawner : MonoBehaviour
     private void GenerateEnemies()
     {
         List<GameObject> generatedEnemies = new();
-        while (waveValue > lowestCost)
+        List<Enemy> enemiesForWave = GetEnemiesForWave(enemies);
+
+        lowestCost = GetLowestCost(enemiesForWave);
+
+        while (waveValue >= lowestCost)
         {
-            int randomEnemyId = Random.Range(0, enemies.Count);
-            int randomEnemyCost = enemies[randomEnemyId].cost;
+            int randomEnemyId = Random.Range(0, enemiesForWave.Count);
+
+            int randomEnemyCost = enemiesForWave[randomEnemyId].cost;
 
             if (waveValue - randomEnemyCost >= 0)
             {
-                generatedEnemies.Add(enemies[randomEnemyId].enemyPrefab);
+                generatedEnemies.Add(enemiesForWave[randomEnemyId].enemyPrefab);
                 waveValue -= randomEnemyCost;
             }
         }
         enemiesToSpawn.Clear();
         enemiesToSpawn = generatedEnemies;
+    }
+
+    private List<Enemy> GetEnemiesForWave(List<Enemy> enemies)
+    {
+        List<Enemy> enemiesForWave = new();
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i].wave <= currentWave)
+            {
+                enemiesForWave.Add(enemies[i]);
+            }
+        }
+
+        return enemiesForWave;
     }
 
     public int GetLowestCost(List<Enemy> enemies)
@@ -92,4 +116,5 @@ public class Enemy
 {
     public GameObject enemyPrefab;
     public int cost;
+    public int wave;
 }

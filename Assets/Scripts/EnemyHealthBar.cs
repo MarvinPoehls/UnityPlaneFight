@@ -18,13 +18,8 @@ public class EnemyHealthBar : MonoBehaviour
         healthImage.fillAmount = healthPercent;
     }
 
-    public void FadeOut()
+    public void SetMaxHealth(float maxHealth)
     {
-
-    }
-
-    public void FadeIn()
-    {
-        
+        this.maxHealth = maxHealth;
     }
 }

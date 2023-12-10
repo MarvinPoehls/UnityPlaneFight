@@ -236,8 +236,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpeed: 7
   Acceleration: 7
-  RotationControl: 3
-  Health: 100
+  RotationControl: 4
+  Health: 400
   Stamina: 100
   shootObject: {fileID: 891590571340213708, guid: 52291618bb517864bbd86f69103c7c3e, type: 3}
   bullletSpawn: {fileID: 211347949432369022}
@@ -245,8 +245,6 @@ MonoBehaviour:
   enemyStatus: 1
   shootRange: 12
   healthBar: {fileID: 7659160877785479906}
-  pointerPrefab: {fileID: 5528661564598912540, guid: 5a7b7bd1951d10447a19da6f8f3c51ec, type: 3}
-  pointerParent: {fileID: 0}
 --- !u!50 &668858656908047100
 Rigidbody2D:
   serializedVersion: 4

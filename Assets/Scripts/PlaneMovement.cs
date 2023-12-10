@@ -16,7 +16,6 @@ public class PlaneMovement : MonoBehaviour
 
     public GameObject shootObject;
     public Transform bullletSpawn;
-
     protected float timeStamp;
     public float coolDownInSeconds;
 
@@ -40,6 +39,11 @@ public class PlaneMovement : MonoBehaviour
             isDead = true;
         }
 
+        if (isDead)
+        {
+            Destroy(gameObject, 2);
+        }
+
         if (isBoosting) {
             Stamina -= 0.05f;
         } else {
@@ -52,11 +56,6 @@ public class PlaneMovement : MonoBehaviour
 
         if (Stamina > MaxStamina) {
             Stamina = MaxStamina;
-        }
-
-        if (isDead)
-        {
-            Destroy(gameObject, 2);
         }
 
         if (IsPlaneUpsideDown())

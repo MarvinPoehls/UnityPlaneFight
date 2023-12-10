@@ -1,3 +1,4 @@
+using CodeMonkey.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,28 +8,22 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private EnemyPointerWindow enemyPointerWindow;
     [SerializeField] private WaveSpawner waveSpawner;
     [SerializeField] private List<GameObject> enemies;
+
+    private float timer;
+    private float startTimer;
     private void Start()
     {
         waveSpawner.GenerateWave();
-        enemies = waveSpawner.GetEnemiesToSpawn();
-
-        foreach (GameObject enemy in enemies)
-        {
-            enemyPointerWindow.CreatePointer(enemy.transform);
-        }
     }
 
     private void Update()
     {
-        if (waveSpawner.GetEnemyCount() == 0)
+        if (waveSpawner.GetEnemyCount() == 0 && timer <= 0)
         {
             waveSpawner.GenerateWave();
-            enemies = waveSpawner.GetEnemiesToSpawn();
-
-            foreach (GameObject enemy in enemies)
-            {
-                enemyPointerWindow.CreatePointer(enemy.transform);
-            }
+            timer = startTimer;
         }
+
+        timer -= Time.deltaTime;
     }
 }

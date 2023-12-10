@@ -10,6 +10,9 @@ public class EnemyMovement : PlaneMovement
 
     [SerializeField] protected EnemyHealthBar healthBar;
 
+    protected EnemyPointerWindow enemyPointerWindow;
+    protected EnemyPointerWindow.EnemyPointer enemyPointer;
+
     public enum EnemyStatus
     {
         Searching,
@@ -19,15 +22,12 @@ public class EnemyMovement : PlaneMovement
 
     private void Awake()
     {
-        playerTransform = GameObject.FindWithTag("Player").transform;
-
-    }
-
-    protected override void Update()
-    {
-        base.Update();
+        healthBar.SetMaxHealth(Health);
 
         playerTransform = GameObject.FindWithTag("Player").transform;
+
+        enemyPointerWindow = FindObjectOfType<EnemyPointerWindow>();
+        enemyPointer = enemyPointerWindow.CreatePointer(transform);
     }
 
     protected void FixedUpdate()
@@ -46,6 +46,9 @@ public class EnemyMovement : PlaneMovement
                     Flee();
                     break;
             }
+        } else
+        {
+            enemyPointerWindow.DestroyPointer(enemyPointer);
         }
     }
 
