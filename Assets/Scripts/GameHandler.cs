@@ -7,6 +7,7 @@ public class GameHandler : MonoBehaviour
 {
     [SerializeField] private EnemyPointerWindow enemyPointerWindow;
     [SerializeField] private WaveSpawner waveSpawner;
+    [SerializeField] private GameOverScreen gameOverScreen;
     [SerializeField] private List<GameObject> enemies;
 
     private float timer;
@@ -23,7 +24,11 @@ public class GameHandler : MonoBehaviour
             waveSpawner.GenerateWave();
             timer = startTimer;
         }
-
         timer -= Time.deltaTime;
+
+        if (!GameObject.FindGameObjectWithTag("Player"))
+        {
+            gameOverScreen.Setup();
+        }
     }
 }

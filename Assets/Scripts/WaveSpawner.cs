@@ -19,7 +19,10 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
-        SetSpawnPosition();
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            SetSpawnPosition();
+        }        
     }
 
     private void SetSpawnPosition()

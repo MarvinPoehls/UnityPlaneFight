@@ -17,7 +17,12 @@ public class EnemyHelicopterMovement : HelicopterMovement
 
     private void FixedUpdate()
     {
-        if (!isDead)
+        if (isDead)
+        {
+            enemyPointerWindow.DestroyPointer(enemyPointer);
+        }
+
+        if (!isDead && playerTransform)
         {
             Vector3 playerDirection = (playerTransform.position - transform.position).normalized;
 
@@ -28,10 +33,7 @@ public class EnemyHelicopterMovement : HelicopterMovement
                 Shoot(playerDirection);
             }
         }
-        else
-        {
-            enemyPointerWindow.DestroyPointer(enemyPointer);
-        }
+        
     }
 
     protected override void Awake()
