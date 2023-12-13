@@ -12,10 +12,15 @@ public class WaveSpawner : MonoBehaviour
 
     [SerializeField] Vector3 spawnPosition;
     [SerializeField] protected float spawnInterval;
-    [SerializeField] protected float spawnTimer;
+    protected float spawnTimer;
     [SerializeField] protected Text enemyCountText;
     [SerializeField] protected Text waveText;
     protected int lowestCost;
+
+    private void Awake()
+    {
+        spawnTimer = spawnInterval;
+    }
 
     private void Update()
     {

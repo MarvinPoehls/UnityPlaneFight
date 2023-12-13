@@ -64001,10 +64001,12 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 380037171604566480, guid: c4a86d1cdfe49af428fbd92f605047fb, type: 3}
     cost: 1
     wave: 1
+  - enemyPrefab: {fileID: 5844733341689632897, guid: 08a9f4941dbd0cf45a6716391eeb8dec, type: 3}
+    cost: 1
+    wave: 1
   currentWave: 0
   spawnPosition: {x: 0, y: 0, z: 0}
   spawnInterval: 5
-  spawnTimer: 0
   enemyCountText: {fileID: 486517363}
   waveText: {fileID: 516315029}
 --- !u!4 &2080558040
