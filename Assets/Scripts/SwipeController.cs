@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
     [SerializeField] Image[] navbarImages;
     [SerializeField] Color selected, notSelected;
 
+    private float timeStamp;
+
     private void Awake()
     {
         currentPage = 1;
@@ -27,23 +30,54 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
         UpdateNavBar();
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Previous();
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Next();
+        }
+    }
+
     public void Next()
     {
-        if (currentPage < maxPage)
+        if (timeStamp < Time.time)
         {
-            currentPage++;
-            targetPosition += pageStep;
+            if (currentPage < maxPage)
+            {
+                currentPage++;
+                targetPosition += pageStep;
+            }
+            else
+            {
+                currentPage = 1;
+                targetPosition -= pageStep * (maxPage - 1);
+            }
             MovePage();
+            timeStamp = Time.time + tweenTime - 0.1f;
         }
     }
 
     public void Previous() 
     {
-        if (currentPage > 1)
+        if (timeStamp < Time.time)
         {
-            currentPage--;
-            targetPosition -= pageStep;
+            if (currentPage > 1)
+            {
+                currentPage--;
+                targetPosition -= pageStep;
+            }
+            else
+            {
+                currentPage = maxPage;
+                targetPosition += pageStep * (maxPage - 1);
+            }
             MovePage();
+            timeStamp = Time.time + tweenTime - 0.1f;
         }
     }
 
