@@ -57,7 +57,7 @@ public class PlayerMovement : PlaneMovement
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            Health -= collision.gameObject.GetComponent<Bullet>().GetDamage();
+            Health -= collision.gameObject.GetComponent<Projectile>().GetDamage();
             hud.UpdateHealth(Health);
         }
     }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected float speed;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float aliveTimeInSeconds;
+
+    protected void Start()
     {
-        
+        Destroy(gameObject, aliveTimeInSeconds);
     }
 
-    // Update is called once per frame
-    void Update()
+    public float GetDamage()
     {
-        
+        return damage;
     }
 }
