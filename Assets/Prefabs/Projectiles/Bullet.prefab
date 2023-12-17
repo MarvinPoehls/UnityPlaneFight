@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   damage: 20
+  coolDown: 0.2
   aliveTimeInSeconds: 10
 --- !u!60 &3392435166336839740
 PolygonCollider2D:

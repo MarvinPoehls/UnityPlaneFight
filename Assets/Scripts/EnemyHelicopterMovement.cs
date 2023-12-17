@@ -52,7 +52,7 @@ public class EnemyHelicopterMovement : HelicopterMovement
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
         {
-            Health -= collision.gameObject.GetComponent<Bullet>().GetDamage();
+            Health -= collision.gameObject.GetComponent<Projectile>().GetDamage();
             healthBar.UpdateHealth(Health);
         }
     }

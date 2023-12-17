@@ -239,7 +239,8 @@ MonoBehaviour:
   RotationControl: 1
   Health: 100
   Stamina: 100
-  shootObject: {fileID: 891590571340213708, guid: 52291618bb517864bbd86f69103c7c3e, type: 3}
+  shootObjects:
+  - {fileID: 891590571340213708, guid: 52291618bb517864bbd86f69103c7c3e, type: 3}
   bullletSpawn: {fileID: 211347949432369022}
   coolDownInSeconds: 0.7
   enemyStatus: 1

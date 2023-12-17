@@ -242,7 +242,9 @@ MonoBehaviour:
   RotationControl: 5
   Health: 100
   Stamina: 100
-  shootObject: {fileID: 7559255092180347689, guid: ff7b10862afcb7747bcabde9a1823b76, type: 3}
+  shootObjects:
+  - {fileID: 7559255092180347689, guid: ff7b10862afcb7747bcabde9a1823b76, type: 3}
+  - {fileID: 8256851005950242445, guid: c09eb85899bdf9b4384e960f4d22263d, type: 3}
   bullletSpawn: {fileID: 2390159227657489166}
   coolDownInSeconds: 0.1
   hud: {fileID: 0}

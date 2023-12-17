@@ -6,7 +6,12 @@ using UnityEngine.UI;
 
 public class PlayerMovement : PlaneMovement
 {
-    [SerializeField] HealthBar hud;
+    [SerializeField] Hud hud;
+
+    protected void Awake()
+    {
+        hud.SetMaxCooldown(shootObjects[selectedWeapon].GetComponent<Projectile>().GetCoolDown());
+    }
 
     protected override void Update()
     {
@@ -22,7 +27,9 @@ public class PlayerMovement : PlaneMovement
             EndBoost();
         }
 
+        SetSelectedWeapon();
         hud.UpdateStamina(Stamina);
+        hud.UpdateCooldown(GetActiveCoolDown());
     }
 
     protected void FixedUpdate()
@@ -73,6 +80,31 @@ public class PlayerMovement : PlaneMovement
         velocity += Vector2.up * lift;
 
         rb.AddForce(velocity);
+    }
+
+    protected void SetSelectedWeapon()
+    {
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            SwitchWeapon(0);
+        }
+
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            SwitchWeapon(1);
+        }
+
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            SwitchWeapon(2);
+        }
+    }
+
+    protected void SwitchWeapon(int selectedWeapon)
+    {
+        this.selectedWeapon = selectedWeapon;
+        hud.SetWeaponSprite(shootObjects[selectedWeapon].GetComponent<SpriteRenderer>().sprite);
+        hud.SetMaxCooldown(shootObjects[selectedWeapon].GetComponent<Projectile>().GetCoolDown());
     }
 
     protected bool IsBrakeInput()

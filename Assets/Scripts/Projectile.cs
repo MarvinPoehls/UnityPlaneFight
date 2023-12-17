@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] protected float speed;
     [SerializeField] protected float damage;
+    [SerializeField] protected float coolDown;
     [SerializeField] protected float aliveTimeInSeconds;
 
     protected void Start()
@@ -16,5 +17,10 @@ public class Projectile : MonoBehaviour
     public float GetDamage()
     {
         return damage;
+    }
+
+    public float GetCoolDown() 
+    {
+        return coolDown; 
     }
 }

@@ -13,7 +13,10 @@ public class Rocket : Projectile
     private void Awake()
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
-        targetTransform = GetNearestTarget(targets).transform;
+        if (GetNearestTarget(targets) != null)
+        {
+            targetTransform = GetNearestTarget(targets).transform;
+        }
         animator = GetComponent<Animator>();
     }
 
@@ -44,6 +47,10 @@ public class Rocket : Projectile
 
     protected GameObject GetNearestTarget(GameObject[] targets)
     {
+        if (targets.Length < 1)
+        {
+            return null;
+        }
         if (targets.Length == 1)
         {
             return targets[0];
