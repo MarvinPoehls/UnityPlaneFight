@@ -105,6 +105,7 @@ public class PlayerMovement : PlaneMovement
         this.selectedWeapon = selectedWeapon;
         hud.SetWeaponSprite(shootObjects[selectedWeapon].GetComponent<SpriteRenderer>().sprite);
         hud.SetMaxCooldown(shootObjects[selectedWeapon].GetComponent<Projectile>().GetCoolDown());
+        ResetCoolDown();
     }
 
     protected bool IsBrakeInput()

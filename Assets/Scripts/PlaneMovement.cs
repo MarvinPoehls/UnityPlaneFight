@@ -17,7 +17,7 @@ public class PlaneMovement : MonoBehaviour
     public GameObject[] shootObjects;
     [SerializeField] protected int selectedWeapon;
     public Transform bullletSpawn;
-    protected float timeStamp;
+    protected float cooldownTimeStamp;
     public float coolDownInSeconds;
 
     protected bool isDead = false;
@@ -63,10 +63,15 @@ public class PlaneMovement : MonoBehaviour
 
     protected void Shoot()
     {
-        if (timeStamp <= Time.time) {
+        if (cooldownTimeStamp <= Time.time) {
             Instantiate(shootObjects[selectedWeapon], bullletSpawn.position, transform.rotation);
-            timeStamp = Time.time + shootObjects[selectedWeapon].GetComponent<Projectile>().GetCoolDown();
+            cooldownTimeStamp = Time.time + shootObjects[selectedWeapon].GetComponent<Projectile>().GetCoolDown();
         }
+    }
+
+    protected void ResetCoolDown()
+    {
+        cooldownTimeStamp = Time.time;
     }
 
     protected void Brake()
@@ -131,6 +136,6 @@ public class PlaneMovement : MonoBehaviour
 
     public float GetActiveCoolDown()
     {
-        return timeStamp - Time.time;
+        return cooldownTimeStamp - Time.time;
     }
 }
