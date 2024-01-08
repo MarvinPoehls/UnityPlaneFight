@@ -15,7 +15,7 @@ public class PlaneMovement : MonoBehaviour
     protected float lift;
 
     public GameObject[] shootObjects;
-    [SerializeField] protected int selectedWeapon;
+    protected int selectedWeapon;
     public Transform bullletSpawn;
     protected float cooldownTimeStamp;
     public float coolDownInSeconds;
